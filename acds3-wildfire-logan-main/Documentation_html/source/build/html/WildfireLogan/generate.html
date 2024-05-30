@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Generate &#8212; Logan 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Ferguson Fire Module" href="fergusonfire.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-WildfireLogan.fergusonfire.generate.generate">
+<span id="generate"></span><h1>Generate<a class="headerlink" href="#module-WildfireLogan.fergusonfire.generate.generate" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="WildfireLogan.fergusonfire.generate.generate.find_min_mse_image">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">find_min_mse_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WildfireLogan.fergusonfire.generate.generate.find_min_mse_image" title="Link to this definition">¶</a></dt>
+<dd><p>Find the generated image with the minimum Mean Squared Error (MSE) compared to satellite data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>generated_images</strong> (<em>numpy.ndarray</em>) – An array of generated images.</p></li>
+<li><p><strong>satellite_data</strong> (<em>numpy.ndarray</em>) – An array of satellite images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>min_mse_generated_image (numpy.ndarray): The generated image with the minimum MSE.</p></li>
+<li><p>min_mse_satellite_image (numpy.ndarray): The corresponding satellite image with the minimum MSE.</p></li>
+<li><p>min_mse_gen_idx (int): The index of the generated image with the minimum MSE.</p></li>
+<li><p>min_mse_sat_idx (int): The index of the satellite image with the minimum MSE.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="WildfireLogan.fergusonfire.generate.generate.generate_images">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">generate_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WildfireLogan.fergusonfire.generate.generate.generate_images" title="Link to this definition">¶</a></dt>
+<dd><p>Generate images using a trained model from random latent vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model with a decode method.</p></li>
+<li><p><strong>latent_dim</strong> (<em>int</em>) – The dimensionality of the latent space.</p></li>
+<li><p><strong>num_images</strong> (<em>int</em>) – The number of images to generate.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device to run the model on (e.g., ‘cpu’ or ‘cuda’).</p></li>
+<li><p><strong>threshold_low</strong> (<em>float</em><em>, </em><em>optional</em>) – Lower threshold for binarizing the generated images. Defaults to 0.3.</p></li>
+<li><p><strong>threshold_high</strong> (<em>float</em><em>, </em><em>optional</em>) – Upper threshold for binarizing the generated images. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generated images after thresholding, reshaped to (num_images, 256, 256).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="WildfireLogan.fergusonfire.generate.generate.generate_sequence">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">generate_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_latent_vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WildfireLogan.fergusonfire.generate.generate.generate_sequence" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a sequence of images using a trained model starting from an initial latent vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model with encode and decode methods.</p></li>
+<li><p><strong>initial_latent_vector</strong> (<em>torch.Tensor</em>) – The initial latent vector to start the sequence.</p></li>
+<li><p><strong>num_steps</strong> (<em>int</em>) – The number of steps (images) to generate in the sequence.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device to run the model on (e.g., ‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of generated images in the sequence, each of shape (256, 256).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">generate_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>Generate images using a trained model from random latent vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model with a decode method.</p></li>
+<li><p><strong>latent_dim</strong> (<em>int</em>) – The dimensionality of the latent space.</p></li>
+<li><p><strong>num_images</strong> (<em>int</em>) – The number of images to generate.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device to run the model on (e.g., ‘cpu’ or ‘cuda’).</p></li>
+<li><p><strong>threshold_low</strong> (<em>float</em><em>, </em><em>optional</em>) – Lower threshold for binarizing the generated images. Defaults to 0.3.</p></li>
+<li><p><strong>threshold_high</strong> (<em>float</em><em>, </em><em>optional</em>) – Upper threshold for binarizing the generated images. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generated images after thresholding, reshaped to (num_images, 256, 256).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">find_min_mse_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd><p>Find the generated image with the minimum Mean Squared Error (MSE) compared to satellite data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>generated_images</strong> (<em>numpy.ndarray</em>) – An array of generated images.</p></li>
+<li><p><strong>satellite_data</strong> (<em>numpy.ndarray</em>) – An array of satellite images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>min_mse_generated_image (numpy.ndarray): The generated image with the minimum MSE.</p></li>
+<li><p>min_mse_satellite_image (numpy.ndarray): The corresponding satellite image with the minimum MSE.</p></li>
+<li><p>min_mse_gen_idx (int): The index of the generated image with the minimum MSE.</p></li>
+<li><p>min_mse_sat_idx (int): The index of the satellite image with the minimum MSE.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-prename descclassname"><span class="pre">WildfireLogan.fergusonfire.generate.generate.</span></span><span class="sig-name descname"><span class="pre">generate_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_latent_vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a sequence of images using a trained model starting from an initial latent vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model with encode and decode methods.</p></li>
+<li><p><strong>initial_latent_vector</strong> (<em>torch.Tensor</em>) – The initial latent vector to start the sequence.</p></li>
+<li><p><strong>num_steps</strong> (<em>int</em>) – The number of steps (images) to generate in the sequence.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device to run the model on (e.g., ‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of generated images in the sequence, each of shape (256, 256).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Logan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="assimilation.html">Assimilation Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convLSTM.html">ConvLSTM Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="fergusonfire.html">Ferguson Fire Module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="fergusonfire.html">Ferguson Fire Module</a><ul>
+      <li>Previous: <a href="fergusonfire.html" title="previous chapter">Ferguson Fire Module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Peiyi Leng, Hongxuan Jiang, Yibing Chen, Yixin Li,Shrreya Behll, Robert Smith, Aoife Robertson, Sarah Nesti.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/WildfireLogan/generate.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
